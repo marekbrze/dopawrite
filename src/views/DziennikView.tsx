@@ -8,13 +8,13 @@ import type { JournalEntry } from '../types'
 function formatDateLabel(dateStr: string): string {
   const [year, month, day] = dateStr.split('-').map(Number)
   const date = new Date(year, month - 1, day)
-  return date.toLocaleDateString('pl-PL', { day: 'numeric', month: 'short' })
+  return date.toLocaleDateString('en-US', { day: 'numeric', month: 'short' })
 }
 
 function formatMonthLabel(dateStr: string): string {
   const [year, month] = dateStr.split('-').map(Number)
   const date = new Date(year, month - 1, 1)
-  return date.toLocaleDateString('pl-PL', { month: 'long', year: 'numeric' })
+  return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
 }
 
 function getMonthKey(dateStr: string): string {
@@ -119,7 +119,7 @@ export function DziennikView({ mobileListOpen, setMobileListOpen }: Props) {
 
   const handleDeleteEntry = async () => {
     if (!selectedId) return
-    if (!confirm('Usunąć ten wpis?')) return
+    if (!confirm('Delete this entry?')) return
     if (saveTimer.current) clearTimeout(saveTimer.current)
     await db.entries.delete(selectedId)
     setSelectedId(null)
@@ -151,19 +151,19 @@ export function DziennikView({ mobileListOpen, setMobileListOpen }: Props) {
     <div className="journal-layout">
       <aside className={`entry-list${mobileListOpen ? ' mobile-open' : ''}`}>
         <div className="entry-list-header">
-          <h2>Wpisy</h2>
+          <h2>Entries</h2>
           <div className="entry-list-header-actions">
             <button
               className={`sidebar-mode-btn${sidebarMode === 'list' ? ' active' : ''}`}
               onClick={() => setSidebarMode('list')}
-              title="Lista"
+              title="List"
             >≡</button>
             <button
               className={`sidebar-mode-btn${sidebarMode === 'calendar' ? ' active' : ''}`}
               onClick={() => setSidebarMode('calendar')}
-              title="Kalendarz"
+              title="Calendar"
             >▦</button>
-            <button className="new-entry-btn" onClick={() => handleNewEntry()} title="Nowy wpis">+</button>
+            <button className="new-entry-btn" onClick={() => handleNewEntry()} title="New entry">+</button>
           </div>
         </div>
         <div className="entry-list-body">
@@ -174,7 +174,7 @@ export function DziennikView({ mobileListOpen, setMobileListOpen }: Props) {
               onSelectDate={handleSelectDate}
             />
           ) : entries.length === 0 ? (
-            <p className="entry-list-empty">Brak wpisów. Kliknij + aby zacząć.</p>
+            <p className="entry-list-empty">No entries yet. Click + to start.</p>
           ) : (
             grouped.map(group => (
               <div key={group.monthKey} className="entry-month-group">
@@ -187,7 +187,7 @@ export function DziennikView({ mobileListOpen, setMobileListOpen }: Props) {
                   >
                     <span className="entry-item-date">{formatDateLabel(entry.date)}</span>
                     <span className="entry-item-title">
-                      {entry.title || <em style={{ color: 'var(--text-faint)', fontStyle: 'italic' }}>Bez tytułu</em>}
+                      {entry.title || <em style={{ color: 'var(--text-faint)', fontStyle: 'italic' }}>Untitled</em>}
                     </span>
                     {entry.content && (
                       <span className="entry-item-preview">{entry.content.slice(0, 60)}</span>
@@ -203,8 +203,8 @@ export function DziennikView({ mobileListOpen, setMobileListOpen }: Props) {
       <main className="editor-panel">
         {!editorState ? (
           <div className="editor-empty">
-            <p>Wybierz wpis lub utwórz nowy</p>
-            <button onClick={() => handleNewEntry()}>Nowy wpis</button>
+            <p>Select an entry or create a new one</p>
+            <button onClick={() => handleNewEntry()}>New entry</button>
           </div>
         ) : (
           <>
@@ -221,17 +221,17 @@ export function DziennikView({ mobileListOpen, setMobileListOpen }: Props) {
                 className="editor-title-input"
                 value={editorState.title}
                 onChange={e => handleEditorChange({ title: e.target.value })}
-                placeholder="Tytuł wpisu…"
+                placeholder="Entry title…"
               />
-              {saveStatus === 'saving' && <span className="editor-save-status">Zapisywanie…</span>}
-              {saveStatus === 'saved' && <span className="editor-save-status">Zapisano</span>}
-              <button className="editor-delete-btn" onClick={handleDeleteEntry}>Usuń</button>
+              {saveStatus === 'saving' && <span className="editor-save-status">Saving…</span>}
+              {saveStatus === 'saved' && <span className="editor-save-status">Saved</span>}
+              <button className="editor-delete-btn" onClick={handleDeleteEntry}>Delete</button>
             </div>
             <div className="editor-content">
               <MarkdownEditor
                 value={editorState.content}
                 onChange={content => handleEditorChange({ content })}
-                placeholder="Zacznij pisać…"
+                placeholder="Start writing…"
                 autoFocus
               />
             </div>

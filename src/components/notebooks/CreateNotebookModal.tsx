@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { db } from '../../db'
-import type { Folder, NotebookType, PromptMode } from '../../types'
+import type { Folder, NotebookTypee, PromptMode } from '../../types'
 
 interface Props {
   folders: Folder[]
@@ -21,7 +21,7 @@ function parsePrompts(raw: string): string[] {
 export function CreateNotebookModal({ folders, onClose }: Props) {
   const [name, setName] = useState('')
   const [folderId, setFolderId] = useState<string>('')
-  const [type, setType] = useState<NotebookType>('regular')
+  const [type, setTypee] = useState<NotebookTypee>('regular')
   const [promptMode, setPromptMode] = useState<PromptMode>('sequential')
   const [promptsRaw, setPromptsRaw] = useState('')
 
@@ -55,16 +55,16 @@ export function CreateNotebookModal({ folders, onClose }: Props) {
     <div className="modal-overlay" onClick={e => { if (e.target === e.currentTarget) onClose() }}>
       <div className="simple-modal simple-modal--wide">
         <div className="simple-modal-header">
-          <span>Nowy notatnik</span>
+          <span>New notebook</span>
           <button className="close-btn" onClick={onClose}>✕</button>
         </div>
         <form onSubmit={handleSubmit} className="simple-modal-body">
           <label className="modal-label">
-            Nazwa
+            Name
             <input
               className="modal-text-input"
               type="text"
-              placeholder="Nazwa notatnika…"
+              placeholder="Notebook name…"
               value={name}
               onChange={e => setName(e.target.value)}
               autoFocus
@@ -78,7 +78,7 @@ export function CreateNotebookModal({ folders, onClose }: Props) {
               value={folderId}
               onChange={e => setFolderId(e.target.value)}
             >
-              <option value="">Brak folderu</option>
+              <option value="">No folder</option>
               {folders.map(f => (
                 <option key={f.id} value={f.id}>{f.name}</option>
               ))}
@@ -86,25 +86,25 @@ export function CreateNotebookModal({ folders, onClose }: Props) {
           </label>
 
           <div className="modal-label">
-            Typ
+            Type
             <div className="modal-radio-group">
               <label className="modal-radio-label">
                 <input
                   type="radio"
                   value="regular"
                   checked={type === 'regular'}
-                  onChange={() => setType('regular')}
+                  onChange={() => setTypee('regular')}
                 />
-                Zwykły
+                Regular
               </label>
               <label className="modal-radio-label">
                 <input
                   type="radio"
                   value="prompt-based"
                   checked={type === 'prompt-based'}
-                  onChange={() => setType('prompt-based')}
+                  onChange={() => setTypee('prompt-based')}
                 />
-                Oparty na podpowiedziach
+                Prompt-based
               </label>
             </div>
           </div>
@@ -112,7 +112,7 @@ export function CreateNotebookModal({ folders, onClose }: Props) {
           {type === 'prompt-based' && (
             <>
               <div className="modal-label">
-                Tryb
+                Mode
                 <div className="modal-radio-group">
                   <label className="modal-radio-label">
                     <input
@@ -121,7 +121,7 @@ export function CreateNotebookModal({ folders, onClose }: Props) {
                       checked={promptMode === 'sequential'}
                       onChange={() => setPromptMode('sequential')}
                     />
-                    Sekwencyjny
+                    Sequential
                   </label>
                   <label className="modal-radio-label">
                     <input
@@ -130,18 +130,18 @@ export function CreateNotebookModal({ folders, onClose }: Props) {
                       checked={promptMode === 'shuffle'}
                       onChange={() => setPromptMode('shuffle')}
                     />
-                    Losowy
+                    Shuffle
                   </label>
                 </div>
               </div>
 
               <label className="modal-label">
-                Podpowiedzi
+                Prompts
                 <textarea
                   className="modal-textarea"
                   value={promptsRaw}
                   onChange={e => setPromptsRaw(e.target.value)}
-                  placeholder={'Jedna podpowiedź na linię.\nUżyj \\n wewnątrz linii dla podziału akapitu.'}
+                  placeholder={'One prompt per line.\nUse \\n within a line for a paragraph break.'}
                   rows={6}
                 />
               </label>
@@ -149,8 +149,8 @@ export function CreateNotebookModal({ folders, onClose }: Props) {
           )}
 
           <div className="modal-actions">
-            <button type="button" className="modal-btn-secondary" onClick={onClose}>Anuluj</button>
-            <button type="submit" className="modal-btn-primary" disabled={!name.trim()}>Utwórz</button>
+            <button type="button" className="modal-btn-secondary" onClick={onClose}>Cancel</button>
+            <button type="submit" className="modal-btn-primary" disabled={!name.trim()}>Create</button>
           </div>
         </form>
       </div>

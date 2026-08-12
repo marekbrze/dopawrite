@@ -31,21 +31,21 @@ export function CreateFolderModal({ onClose }: Props) {
     <div className="modal-overlay" onClick={e => { if (e.target === e.currentTarget) onClose() }}>
       <div className="simple-modal">
         <div className="simple-modal-header">
-          <span>Nowy folder</span>
+          <span>New folder</span>
           <button className="close-btn" onClick={onClose}>✕</button>
         </div>
         <form onSubmit={handleSubmit} className="simple-modal-body">
           <input
             className="modal-text-input"
             type="text"
-            placeholder="Nazwa folderu…"
+            placeholder="Folder name…"
             value={name}
             onChange={e => setName(e.target.value)}
             autoFocus
           />
           <div className="modal-actions">
-            <button type="button" className="modal-btn-secondary" onClick={onClose}>Anuluj</button>
-            <button type="submit" className="modal-btn-primary" disabled={!name.trim()}>Utwórz</button>
+            <button type="button" className="modal-btn-secondary" onClick={onClose}>Cancel</button>
+            <button type="submit" className="modal-btn-primary" disabled={!name.trim()}>Create</button>
           </div>
         </form>
       </div>

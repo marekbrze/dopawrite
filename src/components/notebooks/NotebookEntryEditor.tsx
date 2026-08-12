@@ -31,24 +31,24 @@ export function NotebookEntryEditor({
   onToggleEntries,
 }: Props) {
   const isPromptBased = notebook.type === 'prompt-based'
-  const rerollLabel = notebook.promptMode === 'sequential' ? 'Następny' : 'Losuj'
+  const rerollLabel = notebook.promptMode === 'sequential' ? 'Next' : 'Shuffle'
 
   return (
     <main className="editor-panel">
       {!editorState ? (
         <div className="editor-empty">
           {onToggleEntries && (
-            <button className="mobile-entries-toggle" onClick={onToggleEntries}>≡ Notatki</button>
+            <button className="mobile-entries-toggle" onClick={onToggleEntries}>≡ Notes</button>
           )}
-          <p>Wybierz notatkę lub utwórz nową</p>
-          <button onClick={onNewEntry}>Nowa notatka</button>
+          <p>Select a note or create a new one</p>
+          <button onClick={onNewEntry}>New note</button>
         </div>
       ) : (
         <>
           {isPromptBased && draftPrompt !== null && (
             <div className="prompt-banner">
               <div className="prompt-banner-top">
-                <span className="prompt-banner-label">Podpowiedź</span>
+                <span className="prompt-banner-label">Prompt</span>
                 <button className="prompt-reroll-btn" onClick={onReroll}>{rerollLabel} ↺</button>
               </div>
               <p className="prompt-banner-text">{draftPrompt}</p>
@@ -64,18 +64,18 @@ export function NotebookEntryEditor({
                 className="editor-title-input"
                 value={editorState.title}
                 onChange={e => onEditorChange({ title: e.target.value })}
-                placeholder="Tytuł notatki…"
+                placeholder="Note title…"
               />
             )}
             {saveStatus === 'saving' && <span className="editor-save-status">Zapisywanie…</span>}
             {saveStatus === 'saved' && <span className="editor-save-status">Zapisano</span>}
-            <button className="editor-delete-btn" onClick={onDelete}>Usuń</button>
+            <button className="editor-delete-btn" onClick={onDelete}>Delete</button>
           </div>
           <div className="editor-content">
             <MarkdownEditor
               value={editorState.content}
               onChange={content => onEditorChange({ content })}
-              placeholder="Zacznij pisać…"
+              placeholder="Start writing…"
               autoFocus
             />
           </div>

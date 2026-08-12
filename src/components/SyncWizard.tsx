@@ -27,14 +27,14 @@ function validateDexieCloudUrl(url: string): string | null {
   if (!url) return null
   try {
     const parsed = new URL(url)
-    if (!parsed.hostname.endsWith('.dexie.cloud')) return 'URL musi wskazywać na domenę *.dexie.cloud'
+    if (!parsed.hostname.endsWith('.dexie.cloud')) return 'URL must point to a *.dexie.cloud domain'
     return null
   } catch {
-    return 'Nieprawidłowy URL'
+    return 'Invalid URL'
   }
 }
 
-const STEP_LABELS = ['Tryb', 'Adres URL', 'Logowanie'] as const
+const STEP_LABELS = ['Mode', 'URL', 'Login'] as const
 
 function stepToIndex(step: WizardStep): number {
   switch (step) {
@@ -159,24 +159,24 @@ export function SyncWizard() {
       {step === 'choose-mode' && (
         <div className="wizard-choices">
           <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16, lineHeight: 1.5 }}>
-            Wybierz sposob synchronizacji danych z chmura Dexie Cloud.
+            Choose how to sync your data with Dexie Cloud.
           </p>
           <button
             className="wizard-option-card"
             onClick={() => handleChooseMode('upload')}
           >
-            <div className="wizard-option-card-title">Zapisz dane na serwerze</div>
+            <div className="wizard-option-card-title">Upload data to the server</div>
             <div className="wizard-option-card-desc">
-              Wszystkie Twoje lokalne wpisy zostana przeslane do chmury i zsynchronizowane miedzy urzadzeniami.
+              All your local entries will be uploaded to the cloud and synced across devices.
             </div>
           </button>
           <button
             className="wizard-option-card"
             onClick={() => handleChooseMode('connect-existing')}
           >
-            <div className="wizard-option-card-title">Polacz z istniejaca baza</div>
+            <div className="wizard-option-card-title">Connect to an existing database</div>
             <div className="wizard-option-card-desc">
-              Dane zostana pobrane z serwera. Lokalne wpisy zostana nadpisane.
+              Data will be downloaded from the server. Local entries will be overwritten.
             </div>
           </button>
         </div>
@@ -185,7 +185,7 @@ export function SyncWizard() {
       {step === 'enter-url' && (
         <div>
           <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 14, lineHeight: 1.5 }}>
-            Wpisz adres swojej bazy Dexie Cloud.
+            Enter your Dexie Cloud database URL.
           </p>
           <input
             type="url"
@@ -202,14 +202,14 @@ export function SyncWizard() {
               className="modal-btn-secondary"
               onClick={() => { setStep('choose-mode'); setUrlError(null) }}
             >
-              Wstecz
+              Back
             </button>
             <button
               className="sync-btn"
               onClick={handleUrlNext}
               disabled={!urlDraft.trim() || migrating}
             >
-              Dalej
+              Next
             </button>
           </div>
         </div>
@@ -217,14 +217,14 @@ export function SyncWizard() {
 
       {step === 'migrating' && (
         <div className="wizard-migrating">
-          Przygotowywanie synchronizacji...
+          Preparing sync...
         </div>
       )}
 
       {step === 'login' && (
         <div>
           <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 14, lineHeight: 1.5 }}>
-            Podaj adres e-mail powiazany z Dexie Cloud, aby zalogowac sie do synchronizacji.
+            Enter the email address linked to Dexie Cloud to sign in for sync.
           </p>
           {loginStatus === 'idle' || loginStatus === 'sending' ? (
             <div className="sync-login-form">
@@ -232,7 +232,7 @@ export function SyncWizard() {
                 type="email"
                 value={syncEmail}
                 onChange={e => setSyncEmail(e.target.value)}
-                placeholder="twoj@email.com"
+                placeholder="you@example.com"
                 onKeyDown={e => { if (e.key === 'Enter') handleLogin() }}
               />
               <button
@@ -240,20 +240,20 @@ export function SyncWizard() {
                 disabled={loginStatus === 'sending'}
                 className="sync-btn"
               >
-                {loginStatus === 'sending' ? 'Wysylanie...' : 'Wyslij kod'}
+                {loginStatus === 'sending' ? 'Sending...' : 'Send code'}
               </button>
             </div>
           ) : (
             <div>
               <p style={{ fontSize: 12, color: 'var(--text-faint)', marginBottom: 10 }}>
-                Kod OTP zostal wyslany na {syncEmail}
+                An OTP code was sent to {syncEmail}
               </p>
               <div className="sync-login-form">
                 <input
                   type="text"
                   value={syncOtp}
                   onChange={e => setSyncOtp(e.target.value)}
-                  placeholder="Kod OTP z e-maila"
+                  placeholder="OTP code from email"
                   onKeyDown={e => { if (e.key === 'Enter') handleVerifyOtp() }}
                   autoFocus
                 />
@@ -262,7 +262,7 @@ export function SyncWizard() {
                   disabled={loginStatus === 'verifying'}
                   className="sync-btn"
                 >
-                  {loginStatus === 'verifying' ? 'Weryfikacja...' : 'Zaloguj'}
+                  {loginStatus === 'verifying' ? 'Verifying...' : 'Sign in'}
                 </button>
               </div>
             </div>
@@ -273,12 +273,12 @@ export function SyncWizard() {
       {step === 'connected' && (
         <div>
           <p style={{ fontSize: 11, color: 'var(--text-faint)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
-            Polaczono z chmura
+            Connected to cloud
           </p>
           <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 14 }}>
-            Zalogowano jako <strong>{currentUser?.email ?? currentUser?.userId}</strong>
+            Signed in as <strong>{currentUser?.email ?? currentUser?.userId}</strong>
           </p>
-          <button onClick={handleLogout} className="sync-btn">Wyloguj</button>
+          <button onClick={handleLogout} className="sync-btn">Sign out</button>
         </div>
       )}
     </div>

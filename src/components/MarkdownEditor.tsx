@@ -40,7 +40,7 @@ export function MarkdownEditor({ value, onChange, placeholder, autoFocus }: Prop
         tabIndex={0}
         role="textbox"
         aria-multiline
-        aria-label="Podgląd markdown, kliknij aby edytować"
+        aria-label="Markdown preview, click to edit"
       >
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{value}</ReactMarkdown>
       </div>

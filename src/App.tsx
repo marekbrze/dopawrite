@@ -74,17 +74,17 @@ export default function App() {
             className={`view-tab${activeView === 'dziennik' ? ' active' : ''}`}
             onClick={() => { setActiveView('dziennik'); setMobileListOpen(false); }}
           >
-            Dziennik
+            Journal
           </button>
           <button
             className={`view-tab${activeView === 'notatniki' ? ' active' : ''}`}
             onClick={() => { setActiveView('notatniki'); setMobileListOpen(false); }}
           >
-            Notatniki
+            Notebooks
           </button>
         </nav>
         <button className="settings-btn" onClick={() => setShowSettings(true)}>
-          Ustawienia
+          Settings
         </button>
       </header>
 
@@ -101,30 +101,30 @@ export default function App() {
 
       {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
 
-      <nav className="app-bottom-nav" aria-label="Główna nawigacja">
+      <nav className="app-bottom-nav" aria-label="Main navigation">
         <button
           className={`app-bottom-nav-item${activeView === 'dziennik' ? ' active' : ''}`}
           onClick={() => handleBottomNavTap('dziennik')}
-          aria-label="Dziennik"
+          aria-label="Journal"
         >
           <IconJournal />
-          <span>Dziennik</span>
+          <span>Journal</span>
         </button>
         <button
           className={`app-bottom-nav-item${activeView === 'notatniki' ? ' active' : ''}`}
           onClick={() => handleBottomNavTap('notatniki')}
-          aria-label="Notatniki"
+          aria-label="Notebooks"
         >
           <IconNotebooks />
-          <span>Notatniki</span>
+          <span>Notebooks</span>
         </button>
         <button
           className="app-bottom-nav-item"
           onClick={() => setShowSettings(true)}
-          aria-label="Ustawienia"
+          aria-label="Settings"
         >
           <IconSettings />
-          <span>Ustawienia</span>
+          <span>Settings</span>
         </button>
       </nav>
     </div>

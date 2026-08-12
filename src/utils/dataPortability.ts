@@ -47,7 +47,7 @@ async function decryptData(encrypted: string, password: string): Promise<string>
   const enc = new TextEncoder()
   const parts = encrypted.split(':')
   if (parts.length !== 3) {
-    throw new Error('Nieprawidłowy format zaszyfrowanych danych')
+    throw new Error('Invalid encrypted data format')
   }
 
   const [saltB64, ivB64, ciphertextB64] = parts
@@ -122,21 +122,21 @@ export async function parseImportFile(
     try {
       const decrypted = await decryptData(content, password)
       const parsed = JSON.parse(decrypted)
-      if (!isValidExportData(parsed)) throw new Error('Nieprawidłowa struktura danych w pliku.')
+      if (!isValidExportData(parsed)) throw new Error('Invalid data structure in file.')
       return parsed
     } catch (e) {
-      if (e instanceof Error && e.message.startsWith('Nieprawidłowa')) throw e
-      throw new Error('Nie udało się odszyfrować pliku. Sprawdź hasło.')
+      if (e instanceof Error && e.message.startsWith('Invalid data structure')) throw e
+      throw new Error('Could not decrypt the file. Check the password.')
     }
   }
 
   try {
     const parsed = JSON.parse(content)
-    if (!isValidExportData(parsed)) throw new Error('Nieprawidłowa struktura danych w pliku.')
+    if (!isValidExportData(parsed)) throw new Error('Invalid data structure in file.')
     return parsed
   } catch (e) {
-    if (e instanceof Error && e.message.startsWith('Nieprawidłowa')) throw e
-    throw new Error('Nieprawidłowy format pliku. Plik może być zaszyfrowany.')
+    if (e instanceof Error && e.message.startsWith('Invalid data structure')) throw e
+    throw new Error('Invalid file format. The file may be encrypted.')
   }
 }
 

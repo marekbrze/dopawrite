@@ -107,8 +107,8 @@ export function NotatnikiView({ mobileListOpen, setMobileListOpen }: Props) {
 
   const deleteMessage = pendingDelete
     ? pendingDelete.type === 'notebook'
-      ? `Usunąć notatnik «${pendingDelete.item.name}»? Zawiera ${pendingDelete.entryCount} ${pendingDelete.entryCount === 1 ? 'notatkę' : 'notatek'}.`
-      : `Usunąć folder «${pendingDelete.item.name}»? Zawiera ${pendingDelete.notebookCount} ${pendingDelete.notebookCount === 1 ? 'notatnik' : 'notatników'} i ${pendingDelete.entryCount} ${pendingDelete.entryCount === 1 ? 'notatkę' : 'notatek'}.`
+      ? `Delete notebook "${pendingDelete.item.name}"? It contains ${pendingDelete.entryCount} ${pendingDelete.entryCount === 1 ? 'entry' : 'entries'}.`
+      : `Delete folder "${pendingDelete.item.name}"? It contains ${pendingDelete.notebookCount} ${pendingDelete.notebookCount === 1 ? 'notebook' : 'notebooks'} and ${pendingDelete.entryCount} ${pendingDelete.entryCount === 1 ? 'entry' : 'entries'}.`
     : ''
 
   return (
@@ -134,8 +134,8 @@ export function NotatnikiView({ mobileListOpen, setMobileListOpen }: Props) {
           <NotebookEditor key={selectedNotebookId} notebookId={selectedNotebookId} />
         ) : (
           <div className="editor-empty">
-            <p>Wybierz notatnik lub utwórz nowy</p>
-            <button onClick={() => setShowCreateNotebook(true)}>Nowy notatnik</button>
+            <p>Select a notebook or create a new one</p>
+            <button onClick={() => setShowCreateNotebook(true)}>New notebook</button>
           </div>
         )}
       </main>

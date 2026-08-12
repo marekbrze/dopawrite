@@ -76,7 +76,7 @@ export function SettingsModal({ onClose }: Props) {
       const preview = await previewImport(db, data)
       setImportPreview(preview)
     } catch (err) {
-      setImportError(err instanceof Error ? err.message : 'Błąd parsowania pliku')
+      setImportError(err instanceof Error ? err.message : 'Failed to parse file')
       setImportData(null)
       setImportPreview(null)
     }
@@ -94,7 +94,7 @@ export function SettingsModal({ onClose }: Props) {
       await executeImport(db, importData, importMode)
       window.location.reload()
     } catch (err) {
-      setImportError(err instanceof Error ? err.message : 'Błąd importu')
+      setImportError(err instanceof Error ? err.message : 'Import failed')
     } finally {
       setImporting(false)
     }
@@ -132,31 +132,31 @@ export function SettingsModal({ onClose }: Props) {
             value={activeCategory}
             onChange={e => setActiveCategory(e.target.value as typeof activeCategory)}
           >
-            <option value="backup">Kopia zapasowa</option>
-            <option value="sync">Synchronizacja</option>
+            <option value="backup">Backup</option>
+            <option value="sync">Sync</option>
           </select>
           <button className="settings-mobile-close-btn" onClick={onClose}>✕</button>
         </div>
 
         <div className="settings-sidebar">
-          <div className="settings-sidebar-title">Ustawienia</div>
+          <div className="settings-sidebar-title">Settings</div>
           <button
             className={`settings-nav-item ${activeCategory === 'backup' ? 'active' : ''}`}
             onClick={() => setActiveCategory('backup')}
           >
-            Kopia zapasowa
+            Backup
           </button>
           <button
             className={`settings-nav-item ${activeCategory === 'sync' ? 'active' : ''}`}
             onClick={() => setActiveCategory('sync')}
           >
-            Synchronizacja
+            Sync
           </button>
         </div>
 
         <div className="settings-content">
           <div className="settings-content-header">
-            <span>{activeCategory === 'backup' ? 'Kopia zapasowa' : 'Synchronizacja'}</span>
+            <span>{activeCategory === 'backup' ? 'Backup' : 'Sync'}</span>
             <button className="close-btn" onClick={onClose}>✕</button>
           </div>
           <div className="settings-content-body">
@@ -167,23 +167,23 @@ export function SettingsModal({ onClose }: Props) {
                 {autoBackup && (
                   <div style={{ marginBottom: 24 }}>
                     <p style={{ fontSize: 11, color: 'var(--text-faint)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
-                      Automatyczna kopia
+                      Auto backup
                     </p>
                     <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 10 }}>
-                      Ostatnia kopia: {formatExportDate(autoBackup.exportedAt)} ({autoBackup.data.entries.length} wpisów)
+                      Last backup: {formatExportDate(autoBackup.exportedAt)} ({autoBackup.data.entries.length} entries)
                     </p>
                     <div style={{ display: 'flex', gap: 8 }}>
                       <button
                         onClick={handleRestoreAutoBackup}
                         style={{ fontSize: 11, padding: '5px 12px', border: '1px solid var(--border)', borderRadius: 'var(--radius)', cursor: 'pointer', background: 'transparent', color: 'var(--text-muted)', fontFamily: 'inherit', letterSpacing: '0.05em', textTransform: 'uppercase' }}
                       >
-                        Przywróć
+                        Restore
                       </button>
                       <button
                         onClick={handleClearAutoBackup}
                         style={{ fontSize: 11, padding: '5px 12px', border: '1px solid var(--border)', borderRadius: 'var(--radius)', cursor: 'pointer', background: 'transparent', color: 'var(--text-faint)', fontFamily: 'inherit', letterSpacing: '0.05em', textTransform: 'uppercase' }}
                       >
-                        Usuń kopię
+                        Delete backup
                       </button>
                     </div>
                   </div>
@@ -192,15 +192,15 @@ export function SettingsModal({ onClose }: Props) {
                 {/* Export */}
                 <div style={{ marginBottom: 24, paddingBottom: 24, borderBottom: '1px solid var(--border-light)' }}>
                   <p style={{ fontSize: 11, color: 'var(--text-faint)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
-                    Eksport danych
+                    Export data
                   </p>
                   <div style={{ marginBottom: 12 }}>
-                    <label style={{ fontSize: 11, color: 'var(--text-muted)', display: 'block', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Hasło (opcjonalne)</label>
+                    <label style={{ fontSize: 11, color: 'var(--text-muted)', display: 'block', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Password (optional)</label>
                     <input
                       type="password"
                       value={exportPassword}
                       onChange={e => setExportPassword(e.target.value)}
-                      placeholder="Zostaw puste aby nie szyfrować"
+                      placeholder="Leave empty to skip encryption"
                       style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid var(--border)', padding: '6px 0', fontSize: 14, fontFamily: 'inherit', color: 'var(--text)', outline: 'none' }}
                     />
                   </div>
@@ -209,14 +209,14 @@ export function SettingsModal({ onClose }: Props) {
                     disabled={exporting}
                     style={{ fontSize: 11, padding: '7px 16px', border: 'none', borderRadius: 'var(--radius)', cursor: exporting ? 'default' : 'pointer', background: 'var(--accent)', color: 'var(--surface)', fontFamily: 'inherit', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, opacity: exporting ? 0.6 : 1 }}
                   >
-                    {exporting ? 'Eksportowanie…' : 'Eksportuj JSON'}
+                    {exporting ? 'Exporting…' : 'Export JSON'}
                   </button>
                 </div>
 
                 {/* Import */}
                 <div>
                   <p style={{ fontSize: 11, color: 'var(--text-faint)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
-                    Import danych
+                    Import data
                   </p>
                   <input
                     ref={fileInputRef}
@@ -227,20 +227,20 @@ export function SettingsModal({ onClose }: Props) {
                   />
                   {importEncrypted && !importData && (
                     <div style={{ marginBottom: 12 }}>
-                      <label style={{ fontSize: 11, color: 'var(--text-muted)', display: 'block', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Hasło do odszyfrowania</label>
+                      <label style={{ fontSize: 11, color: 'var(--text-muted)', display: 'block', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Decryption password</label>
                       <div style={{ display: 'flex', gap: 8 }}>
                         <input
                           type="password"
                           value={importPassword}
                           onChange={e => setImportPassword(e.target.value)}
-                          placeholder="Wpisz hasło"
+                          placeholder="Enter password"
                           style={{ flex: 1, background: 'transparent', border: 'none', borderBottom: '1px solid var(--border)', padding: '6px 0', fontSize: 14, fontFamily: 'inherit', color: 'var(--text)', outline: 'none' }}
                         />
                         <button
                           onClick={handleDecryptImport}
                           style={{ fontSize: 11, padding: '5px 12px', border: '1px solid var(--border)', borderRadius: 'var(--radius)', cursor: 'pointer', background: 'transparent', color: 'var(--text-muted)', fontFamily: 'inherit', letterSpacing: '0.05em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}
                         >
-                          Odszyfruj
+                          Decrypt
                         </button>
                       </div>
                     </div>
@@ -250,17 +250,17 @@ export function SettingsModal({ onClose }: Props) {
                   )}
                   {importPreview && (
                     <div style={{ marginBottom: 12, padding: '10px 14px', background: 'rgba(92,74,56,.05)', borderRadius: 'var(--radius)', fontSize: 13, color: 'var(--text-muted)' }}>
-                      <p>Wpisy: +{importPreview.entries.added} nowych, {importPreview.entries.updated} zaktualizowanych</p>
+                      <p>Entries: +{importPreview.entries.added} new, {importPreview.entries.updated} updated</p>
                     </div>
                   )}
                   {importData && (
                     <div style={{ marginBottom: 12 }}>
-                      <label style={{ fontSize: 11, color: 'var(--text-muted)', display: 'block', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Tryb importu</label>
+                      <label style={{ fontSize: 11, color: 'var(--text-muted)', display: 'block', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Import mode</label>
                       <div style={{ display: 'flex', gap: 16, marginBottom: 12 }}>
                         {(['merge', 'replace'] as ImportMode[]).map(mode => (
                           <label key={mode} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--text-muted)', cursor: 'pointer' }}>
                             <input type="radio" name="importMode" value={mode} checked={importMode === mode} onChange={() => setImportMode(mode)} style={{ accentColor: 'var(--accent)' }} />
-                            {mode === 'merge' ? 'Scal' : 'Zastąp wszystko'}
+                            {mode === 'merge' ? 'Merge' : 'Replace all'}
                           </label>
                         ))}
                       </div>
@@ -270,13 +270,13 @@ export function SettingsModal({ onClose }: Props) {
                           disabled={importing}
                           style={{ fontSize: 11, padding: '7px 16px', border: 'none', borderRadius: 'var(--radius)', cursor: importing ? 'default' : 'pointer', background: 'var(--accent)', color: 'var(--surface)', fontFamily: 'inherit', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, opacity: importing ? 0.6 : 1 }}
                         >
-                          {importing ? 'Importowanie…' : 'Importuj'}
+                          {importing ? 'Importing…' : 'Import'}
                         </button>
                         <button
                           onClick={resetImport}
                           style={{ fontSize: 11, padding: '7px 12px', border: '1px solid var(--border)', borderRadius: 'var(--radius)', cursor: 'pointer', background: 'transparent', color: 'var(--text-muted)', fontFamily: 'inherit', letterSpacing: '0.05em', textTransform: 'uppercase' }}
                         >
-                          Anuluj
+                          Cancel
                         </button>
                       </div>
                     </div>

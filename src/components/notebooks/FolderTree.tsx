@@ -76,10 +76,10 @@ export function FolderTree({
   return (
     <div className="folder-tree">
       <div className="folder-tree-header">
-        <h2>Notatniki</h2>
+        <h2>Notebooks</h2>
         <div className="folder-tree-actions">
-          <button className="new-entry-btn" onClick={onCreateFolder} title="Nowy folder">⊕</button>
-          <button className="new-entry-btn" onClick={onCreateNotebook} title="Nowy notatnik">+</button>
+          <button className="new-entry-btn" onClick={onCreateFolder} title="New folder">⊕</button>
+          <button className="new-entry-btn" onClick={onCreateNotebook} title="New notebook">+</button>
         </div>
       </div>
       <div className="folder-tree-body">
@@ -95,7 +95,7 @@ export function FolderTree({
               <PromptRing used={usedPromptCounts.get(nb.id) ?? 0} total={(nb.prompts ?? []).length} />
             )}
             <span className="row-actions">
-              <button className="row-action-btn" title="Edytuj" onClick={e => { e.stopPropagation(); onEditNotebook(nb) }}>✎</button>
+              <button className="row-action-btn" title="Edit" onClick={e => { e.stopPropagation(); onEditNotebook(nb) }}>✎</button>
             </span>
           </div>
         ))}
@@ -112,7 +112,7 @@ export function FolderTree({
                 <span className="folder-icon">{isExpanded ? <FolderOpenIcon /> : <FolderIcon />}</span>
                 <span className="folder-name">{folder.name}</span>
                 <span className="row-actions">
-                  <button className="row-action-btn" title="Edytuj folder" onClick={e => { e.stopPropagation(); onEditFolder(folder) }}>✎</button>
+                  <button className="row-action-btn" title="Edit folder" onClick={e => { e.stopPropagation(); onEditFolder(folder) }}>✎</button>
                 </span>
               </div>
               {isExpanded && folderNotebooks.map(nb => (
@@ -127,7 +127,7 @@ export function FolderTree({
               <PromptRing used={usedPromptCounts.get(nb.id) ?? 0} total={(nb.prompts ?? []).length} />
             )}
                   <span className="row-actions">
-                    <button className="row-action-btn" title="Edytuj" onClick={e => { e.stopPropagation(); onEditNotebook(nb) }}>✎</button>
+                    <button className="row-action-btn" title="Edit" onClick={e => { e.stopPropagation(); onEditNotebook(nb) }}>✎</button>
                   </span>
                 </div>
               ))}
@@ -136,7 +136,7 @@ export function FolderTree({
         })}
 
         {folders.length === 0 && notebooks.length === 0 && (
-          <p className="entry-list-empty">Brak notatników. Kliknij + aby zacząć.</p>
+          <p className="entry-list-empty">No notebooks yet. Click + to start.</p>
         )}
       </div>
     </div>

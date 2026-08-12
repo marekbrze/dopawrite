@@ -23,7 +23,7 @@ export function NotebookEditor({ notebookId }: Props) {
   const [draftPrompt, setDraftPrompt] = useState<string | null>(null)
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | ''>('')
   const [mobileEntriesOpen, setMobileEntriesOpen] = useState(false)
-  const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const saveTimer = useRef<ReturnTypee<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const sub1 = liveQuery(() => db.notebooks.get(notebookId)).subscribe(nb => {
@@ -196,7 +196,7 @@ export function NotebookEditor({ notebookId }: Props) {
       setDraftPrompt(null)
       return
     }
-    if (!confirm('Usunąć tę notatkę?')) return
+    if (!confirm('Delete this note?')) return
     if (saveTimer.current) clearTimeout(saveTimer.current)
     await db.notebookEntries.delete(selectedEntryId)
     setSelectedEntryId(null)
@@ -226,7 +226,7 @@ export function NotebookEditor({ notebookId }: Props) {
           <button
             className="new-entry-btn"
             onClick={handleNewEntry}
-            title={allPromptsUsed ? 'Wszystkie podpowiedzi użyte' : 'Nowa notatka'}
+            title={allPromptsUsed ? 'All prompts used' : 'New note'}
             disabled={allPromptsUsed}
           >+</button>
         </div>
@@ -242,7 +242,7 @@ export function NotebookEditor({ notebookId }: Props) {
               aria-valuenow={usedCount}
               aria-valuemin={0}
               aria-valuemax={totalCount}
-              aria-label={`Postęp podpowiedzi: ${usedCount} z ${totalCount} użytych`}
+              aria-label={`Prompt progress: ${usedCount} of ${totalCount} used`}
             >
               <div
                 className="prompt-progress-fill"
@@ -258,18 +258,18 @@ export function NotebookEditor({ notebookId }: Props) {
               <span className="entry-item-title">
                 {notebook.type === 'prompt-based' && draftPrompt
                   ? draftPrompt
-                  : <em style={{ color: 'var(--text-faint)', fontStyle: 'italic' }}>Nowa notatka…</em>
+                  : <em style={{ color: 'var(--text-faint)', fontStyle: 'italic' }}>New note…</em>
                 }
               </span>
             </div>
           )}
           {entries.length === 0 && selectedEntryId !== DRAFT_ID && (
-            <p className="entry-list-empty">Brak notatek. Kliknij + aby zacząć.</p>
+            <p className="entry-list-empty">No notes yet. Click + to start.</p>
           )}
           {entries.map(entry => {
             const displayTitle = notebook.type === 'prompt-based'
-              ? (entry.prompt || <em style={{ color: 'var(--text-faint)', fontStyle: 'italic' }}>Bez podpowiedzi</em>)
-              : (entry.title || <em style={{ color: 'var(--text-faint)', fontStyle: 'italic' }}>Bez tytułu</em>)
+              ? (entry.prompt || <em style={{ color: 'var(--text-faint)', fontStyle: 'italic' }}>No prompt</em>)
+              : (entry.title || <em style={{ color: 'var(--text-faint)', fontStyle: 'italic' }}>Untitled</em>)
             return (
               <div
                 key={entry.id}
