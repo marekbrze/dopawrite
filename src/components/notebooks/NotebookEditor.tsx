@@ -23,7 +23,7 @@ export function NotebookEditor({ notebookId }: Props) {
   const [draftPrompt, setDraftPrompt] = useState<string | null>(null)
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | ''>('')
   const [mobileEntriesOpen, setMobileEntriesOpen] = useState(false)
-  const saveTimer = useRef<ReturnTypee<typeof setTimeout> | null>(null)
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const sub1 = liveQuery(() => db.notebooks.get(notebookId)).subscribe(nb => {

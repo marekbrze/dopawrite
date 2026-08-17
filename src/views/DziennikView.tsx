@@ -8,13 +8,13 @@ import type { JournalEntry } from '../types'
 function formatDateLabel(dateStr: string): string {
   const [year, month, day] = dateStr.split('-').map(Number)
   const date = new Date(year, month - 1, day)
-  return date.toLocaleDateString('en-US', { day: 'numeric', month: 'short' })
+  return date.toLocaleDateString(navigator.language, { day: 'numeric', month: 'short' })
 }
 
 function formatMonthLabel(dateStr: string): string {
   const [year, month] = dateStr.split('-').map(Number)
   const date = new Date(year, month - 1, 1)
-  return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+  return date.toLocaleDateString(navigator.language, { month: 'long', year: 'numeric' })
 }
 
 function getMonthKey(dateStr: string): string {

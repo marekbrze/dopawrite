@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { db } from '../../db'
-import type { Folder, NotebookTypee, PromptMode } from '../../types'
+import type { Folder, NotebookType, PromptMode } from '../../types'
 
 interface Props {
   folders: Folder[]
@@ -21,7 +21,7 @@ function parsePrompts(raw: string): string[] {
 export function CreateNotebookModal({ folders, onClose }: Props) {
   const [name, setName] = useState('')
   const [folderId, setFolderId] = useState<string>('')
-  const [type, setTypee] = useState<NotebookTypee>('regular')
+  const [type, setType] = useState<NotebookType>('regular')
   const [promptMode, setPromptMode] = useState<PromptMode>('sequential')
   const [promptsRaw, setPromptsRaw] = useState('')
 
@@ -93,7 +93,7 @@ export function CreateNotebookModal({ folders, onClose }: Props) {
                   type="radio"
                   value="regular"
                   checked={type === 'regular'}
-                  onChange={() => setTypee('regular')}
+                  onChange={() => setType('regular')}
                 />
                 Regular
               </label>
@@ -102,7 +102,7 @@ export function CreateNotebookModal({ folders, onClose }: Props) {
                   type="radio"
                   value="prompt-based"
                   checked={type === 'prompt-based'}
-                  onChange={() => setTypee('prompt-based')}
+                  onChange={() => setType('prompt-based')}
                 />
                 Prompt-based
               </label>

@@ -237,7 +237,7 @@ export function downloadBlob(blob: Blob, filename: string): void {
 
 export function formatExportDate(iso: string): string {
   try {
-    return new Date(iso).toLocaleString('pl-PL', {
+    return new Date(iso).toLocaleString(navigator.language, {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',

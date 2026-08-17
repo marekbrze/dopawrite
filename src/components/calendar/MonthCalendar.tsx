@@ -20,7 +20,7 @@ const DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 function getMonthName(month: number, year: number): string {
   const d = new Date(year, month - 1, 1)
-  return d.toLocaleDateString('pl-PL', { month: 'long', year: 'numeric' })
+  return d.toLocaleDateString(navigator.language, { month: 'long', year: 'numeric' })
 }
 
 export function MonthCalendar({ entries, selectedId, onSelectDate }: Props) {
